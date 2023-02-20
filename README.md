@@ -181,7 +181,7 @@ No user sessions are running outdated binaries.
 
 No VM guests are running outdated hypervisor (qemu) binaries on this host.
 ```
-Проверяю статус вервиса
+Проверяю статус сервиса
 ```
 user@server1:~$ systemctl status mysql
 ● mysql.service - MySQL Community Server
