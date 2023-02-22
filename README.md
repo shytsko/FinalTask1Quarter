@@ -42,67 +42,66 @@ mysql> CREATE TABLE dogs (
     -> id_spec INTEGER NOT NULL DEFAULT 1,
     -> `name` VARCHAR(50) NOT NULL,
     -> birthdate DATE NOT NULL,
-    -> CHECK (id_spec=1)
-    -> );
+    -> skills JSON NOT NULL,
+    -> CHECK (id_spec=1),
+    -> CHECK (JSON_VALID (skills))
+    -> ) AUTO_INCREMENT=1000;
 Query OK, 0 rows affected (0.01 sec)
-
-mysql> ALTER TABLE dogs AUTO_INCREMENT=1000;
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
 
 mysql> CREATE TABLE cats (
     -> id INTEGER  NOT NULL PRIMARY KEY AUTO_INCREMENT,
     -> id_spec INTEGER NOT NULL DEFAULT 2,
     -> `name` VARCHAR(50) NOT NULL,
     -> birthdate DATE NOT NULL,
-    -> CHECK (id_spec=2)
-    -> );
+    -> skills JSON NOT NULL,
+    -> CHECK (id_spec=2),
+    -> CHECK (JSON_VALID (skills))
+    -> ) AUTO_INCREMENT=2000;
 Query OK, 0 rows affected (0.01 sec)
-
-mysql> ALTER TABLE cats AUTO_INCREMENT=2000;
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
 
 mysql> CREATE TABLE hamsters (
     -> id INTEGER  NOT NULL PRIMARY KEY AUTO_INCREMENT,
     -> id_spec INTEGER NOT NULL DEFAULT 3,
     -> `name` VARCHAR(50) NOT NULL,
     -> birthdate DATE NOT NULL,
-    -> CHECK (id_spec=3)
-    -> );
+    -> skills JSON NOT NULL,
+    -> CHECK (id_spec=3),
+    -> CHECK (JSON_VALID (skills))
+    -> ) AUTO_INCREMENT=3000;
 Query OK, 0 rows affected (0.01 sec)
-
-mysql> ALTER TABLE hamsters AUTO_INCREMENT=3000;
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
 
 mysql> CREATE TABLE horses (
     -> id INTEGER  NOT NULL PRIMARY KEY AUTO_INCREMENT,
     -> id_spec INTEGER NOT NULL DEFAULT 4,
     -> `name` VARCHAR(50) NOT NULL,
     -> birthdate DATE NOT NULL,
-    -> CHECK (id_spec=4)
-    -> );
+    -> skills JSON NOT NULL,
+    -> CHECK (id_spec=4),
+    -> CHECK (JSON_VALID (skills))
+    -> ) AUTO_INCREMENT=4000;
 Query OK, 0 rows affected (0.01 sec)
 
-mysql> ALTER TABLE horses AUTO_INCREMENT=4000;
+mysql> CREATE TABLE camels (
+    -> id INTEGER  NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    -> id_spec INTEGER NOT NULL DEFAULT 5,
+    -> `name` VARCHAR(50) NOT NULL,
+    -> birthdate DATE NOT NULL,
+    -> skills JSON NOT NULL,
+    -> CHECK (id_spec=5),
+    -> CHECK (JSON_VALID (skills))
+    -> ) AUTO_INCREMENT=5000;
 Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
 
 mysql> CREATE TABLE donkeys (
     -> id INTEGER  NOT NULL PRIMARY KEY AUTO_INCREMENT,
     -> id_spec INTEGER NOT NULL DEFAULT 6,
     -> `name` VARCHAR(50) NOT NULL,
     -> birthdate DATE NOT NULL,
-    -> CHECK (id_spec=6)
-    -> );
+    -> skills JSON NOT NULL,
+    -> CHECK (id_spec=6),
+    -> CHECK (JSON_VALID (skills))
+    -> ) AUTO_INCREMENT=6000;
 Query OK, 0 rows affected (0.01 sec)
-
-mysql> ALTER TABLE donkeys AUTO_INCREMENT=6000;
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
 ```
 
 
@@ -149,107 +148,108 @@ mysql> SELECT * FROM animal_species;
 +----+---------+----------------+
 6 rows in set (0.00 sec)
 
-mysql> INSERT INTO dogs(`name`, birthdate) VALUES
-    -> ('Бобик', '2021-01-10'),
-    -> ('Дейзи', '2018-08-13'),
-    -> ('Пират', '2022-12-15');
+mysql> INSERT INTO dogs(`name`, birthdate, skills) VALUES
+    -> ('Бобик', '2021-01-10', '["лаять", "кусать"]'),
+    -> ('Дейзи', '2018-08-13', '["играть"]'),
+    -> ('Пират', '2022-12-15', '["ловить тарелку"]');
 Query OK, 3 rows affected (0.01 sec)
 Records: 3  Duplicates: 0  Warnings: 0
+
 
 mysql> SELECT * FROM dogs;
-+------+---------+------------+------------+
-| id   | id_spec | name       | birthdate  |
-+------+---------+------------+------------+
-| 1000 |       1 | Бобик      | 2021-01-10 |
-| 1001 |       1 | Дейзи      | 2018-08-13 |
-| 1002 |       1 | Пират      | 2022-12-15 |
-+------+---------+------------+------------+
-3 rows in set (0.00 sec)
++------+---------+------------+------------+---------------------------------+
+| id   | id_spec | name       | birthdate  | skills                          |
++------+---------+------------+------------+---------------------------------+
+| 1000 |       1 | Бобик      | 2021-01-10 | ["лаять", "кусать"]             |
+| 1001 |       1 | Дейзи      | 2018-08-13 | ["играть"]                      |
+| 1002 |       1 | Пират      | 2022-12-15 | ["ловить тарелку"]              |
++------+---------+------------+------------+---------------------------------+
+3 rows in set (0.01 sec)
 
-mysql> INSERT INTO cats(`name`, birthdate) VALUES
-    -> ('Марта', '2017-04-15'),
-    -> ('Кузя', '2016-11-13'),
-    -> ('Яшка', '2021-12-01');
+mysql> INSERT INTO cats(`name`, birthdate, skills) VALUES
+    -> ('Марта', '2017-04-15', '["ловить мышей"]'),
+    -> ('Кузя', '2016-11-13', '["показывать зайца"]'),
+    -> ('Яшка', '2021-12-01', '["играть"]');
 Query OK, 3 rows affected (0.01 sec)
 Records: 3  Duplicates: 0  Warnings: 0
 
+
 mysql> SELECT * FROM cats;
-+------+---------+------------+------------+
-| id   | id_spec | name       | birthdate  |
-+------+---------+------------+------------+
-| 2000 |       2 | Марта      | 2017-04-15 |
-| 2001 |       2 | Кузя       | 2016-11-13 |
-| 2002 |       2 | Яшка       | 2021-12-01 |
-+------+---------+------------+------------+
++------+---------+------------+------------+-------------------------------------+
+| id   | id_spec | name       | birthdate  | skills                              |
++------+---------+------------+------------+-------------------------------------+
+| 2000 |       2 | Марта      | 2017-04-15 | ["ловить мышей"]                    |
+| 2001 |       2 | Кузя       | 2016-11-13 | ["показывать зайца"]                |
+| 2002 |       2 | Яшка       | 2021-12-01 | ["играть"]                          |
++------+---------+------------+------------+-------------------------------------+
 3 rows in set (0.00 sec)
 
-
-mysql> INSERT INTO hamsters(`name`, birthdate) VALUES
-    -> ('Чаки', '2021-12-31'),
-    -> ('Пух', '2022-10-01'),
-    -> ('Рокки', '2022-01-14');
+mysql> INSERT INTO hamsters(`name`, birthdate, skills) VALUES
+    -> ('Чаки', '2021-12-31', '["спать"]'),
+    -> ('Пух', '2022-10-01', '[]'),
+    -> ('Рокки', '2022-01-14', '[]');
 Query OK, 3 rows affected (0.00 sec)
 Records: 3  Duplicates: 0  Warnings: 0
 
 mysql> SELECT * FROM hamsters;
-+------+---------+------------+------------+
-| id   | id_spec | name       | birthdate  |
-+------+---------+------------+------------+
-| 3000 |       3 | Чаки       | 2021-12-31 |
-| 3001 |       3 | Пух        | 2022-10-01 |
-| 3002 |       3 | Рокки      | 2022-01-14 |
-+------+---------+------------+------------+
++------+---------+------------+------------+----------------+
+| id   | id_spec | name       | birthdate  | skills         |
++------+---------+------------+------------+----------------+
+| 3000 |       3 | Чаки       | 2021-12-31 | ["спать"]      |
+| 3001 |       3 | Пух        | 2022-10-01 | []             |
+| 3002 |       3 | Рокки      | 2022-01-14 | []             |
++------+---------+------------+------------+----------------+
 3 rows in set (0.00 sec)
 
-mysql> INSERT INTO horses(`name`, birthdate) VALUES
-    -> ('Пегас', '2015-09-18'),
-    -> ('Джули', '2022-07-07'),
-    -> ('Шумахер', '2018-05-06');
+mysql> INSERT INTO horses(`name`, birthdate, skills) VALUES
+    -> ('Пегас', '2015-09-18', '["скакать"]'),
+    -> ('Джули', '2022-07-07', '["тянуть"]'),
+    -> ('Шумахер', '2018-05-06', '["толкать"]');
 Query OK, 3 rows affected (0.00 sec)
 Records: 3  Duplicates: 0  Warnings: 0
 
 mysql> SELECT * FROM horses;
-+------+---------+----------------+------------+
-| id   | id_spec | name           | birthdate  |
-+------+---------+----------------+------------+
-| 4000 |       4 | Пегас          | 2015-09-18 |
-| 4001 |       4 | Джули          | 2022-07-07 |
-| 4002 |       4 | Шумахер        | 2018-05-06 |
-+------+---------+----------------+------------+
++------+---------+----------------+------------+--------------------+
+| id   | id_spec | name           | birthdate  | skills             |
++------+---------+----------------+------------+--------------------+
+| 4000 |       4 | Пегас          | 2015-09-18 | ["скакать"]        |
+| 4001 |       4 | Джули          | 2022-07-07 | ["тянуть"]         |
+| 4002 |       4 | Шумахер        | 2018-05-06 | ["толкать"]        |
++------+---------+----------------+------------+--------------------+
 3 rows in set (0.00 sec)
 
-mysql> INSERT INTO camels(`name`, birthdate) VALUES
-    -> ('Бо', '2010-03-22'),
-    -> ('Джолента', '2020-10-08'),
-    -> ('Миша', '2018-06-06');
+mysql> INSERT INTO camels(`name`, birthdate, skills) VALUES
+    -> ('Бо', '2010-03-22', '[]'),
+    -> ('Джолента', '2020-10-08', '[]'),
+    -> ('Миша', '2018-06-06', '[]');
 Query OK, 3 rows affected (0.01 sec)
 Records: 3  Duplicates: 0  Warnings: 0
 
 mysql> SELECT * FROM camels;
-+------+---------+------------------+------------+
-| id   | id_spec | name             | birthdate  |
-+------+---------+------------------+------------+
-| 5000 |       5 | Бо               | 2010-03-22 |
-| 5001 |       5 | Джолента         | 2020-10-08 |
-| 5002 |       5 | Миша             | 2018-06-06 |
-+------+---------+------------------+------------+
++------+---------+------------------+------------+--------+
+| id   | id_spec | name             | birthdate  | skills |
++------+---------+------------------+------------+--------+
+| 5000 |       5 | Бо               | 2010-03-22 | []     |
+| 5001 |       5 | Джолента         | 2020-10-08 | []     |
+| 5002 |       5 | Миша             | 2018-06-06 | []     |
++------+---------+------------------+------------+--------+
 3 rows in set (0.00 sec)
 
-mysql> INSERT INTO donkeys(`name`, birthdate) VALUES
-    -> ('Карвалол', '2020-11-22'),
-    -> ('Валидол', '2017-10-14'),
-    -> ('Аспирин', '2022-05-22');
-Query OK, 3 rows affected (0.00 sec)
+mysql> INSERT INTO donkeys(`name`, birthdate, skills) VALUES
+    -> ('Карвалол', '2020-11-22', '[]'),
+    -> ('Валидол', '2017-10-14', '[]'),
+    -> ('Аспирин', '2022-05-22', '[]');
+Query OK, 3 rows affected (0.01 sec)
 Records: 3  Duplicates: 0  Warnings: 0
 
 mysql> SELECT * FROM donkeys;
-+------+---------+------------------+------------+
-| id   | id_spec | name             | birthdate  |
-+------+---------+------------------+------------+
-| 6000 |       6 | Карвалол         | 2020-11-22 |
-| 6001 |       6 | Валидол          | 2017-10-14 |
-| 6002 |       6 | Аспирин          | 2022-05-22 |
-+------+---------+------------------+------------+
++------+---------+------------------+------------+--------+
+| id   | id_spec | name             | birthdate  | skills |
++------+---------+------------------+------------+--------+
+| 6000 |       6 | Карвалол         | 2020-11-22 | []     |
+| 6001 |       6 | Валидол          | 2017-10-14 | []     |
+| 6002 |       6 | Аспирин          | 2022-05-22 | []     |
++------+---------+------------------+------------+--------+
 3 rows in set (0.00 sec)
 ```
 
