@@ -49,10 +49,16 @@ public abstract class Animal {
 
     @Override
     public String toString() {
-        return getSpecies() + "{" +
-                "name='" + name + '\'' +
-                ", birthDate=" + dateFormater.format(birthDate) +
-                ", skills=" + skills +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append(getSpecies()).append(" ")
+                .append(name).append(", ")
+                .append("день рождения ").append(dateFormater.format(birthDate)).append(", ");
+        if(skills.isEmpty()) {
+            sb.append("Ничего не умеет");
+        }
+        else {
+            sb.append("умеет ").append(String.join(", ", skills));
+        }
+        return sb.toString();
     }
 }

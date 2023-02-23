@@ -14,6 +14,11 @@ public class main {
 
     public static void main(String[] args) throws Exception {
         nursery = new AnimalNursery();
+
+        nursery.addAnimal(new Dog("Бобик", "2018-10-15"));
+        nursery.addAnimal((new Cat("Кузя", "2020-05-13")).addSkill("ловить мышей"));
+        nursery.addAnimal(new Hamster("Рокки", "2022-17-18"));
+
         boolean exit = false;
         scanner = new Scanner(System.in);
 
@@ -24,19 +29,19 @@ public class main {
                     exit = true;
                     break;
                 case 1:
-                    System.out.println("Список питомцев");
+                    getAllAnimalsInfo();
                     break;
                 case 2:
-                    System.out.println("Информация о питомце");
+                    getAnimalInfo();
                     break;
                 case 3:
                     addAnimal();
                     break;
                 case 4:
-                    System.out.println("Удалили питомца");
+                    removeAnimal();
                     break;
                 case 5:
-                    System.out.println("Обучили питомца");
+                    geekBrains();
                     break;
                 default:
                     System.out.println("Такая команда не предусмотрена");
@@ -45,7 +50,64 @@ public class main {
         }
     }
 
+    private static String inputName() {
+        String name = "";
+        while (name.equals("")) {
+            System.out.print("Введите имя питомца: ");
+            name = scanner.nextLine();
+        }
+        return name;
+    }
+
+    private static void geekBrains() {
+        String name = inputName();
+        Animal animal = nursery.getAnimal(name);
+        if (animal != null) {
+            System.out.println("Чему будем учить?");
+            String skill = "";
+            while (skill.equals("")) {
+                System.out.print("> ");
+                skill = scanner.nextLine();
+            }
+            animal.addSkill(skill);
+            System.out.println(animal.getName() + " обучен " + skill);
+        } else {
+            System.out.println("Нет такого питомца");
+        }
+    }
+
+
+    private static void removeAnimal() {
+        String name = inputName();
+        nursery.getAnimal(name);
+        if (nursery.containsAnimal(name)) {
+            nursery.removeAnimal(name);
+            System.out.println("Пока, " + name);
+        } else {
+            System.out.println("Нет такого питомца");
+        }
+    }
+
+    private static void getAnimalInfo() {
+        String name = inputName();
+        Animal animal = nursery.getAnimal(name);
+        if (animal != null) {
+            System.out.println(animal);
+        } else {
+            System.out.println("Нет такого питомца");
+        }
+    }
+
+    private static void getAllAnimalsInfo() {
+        System.out.println("В питомнике живут:");
+        for (Object o : nursery) {
+            Animal animal = (Animal) o;
+            System.out.println(animal.getSpecies() + " " + animal.getName());
+        }
+    }
+
     public static int mainMenu() {
+        System.out.println("----------------------");
         System.out.println("Что будем делать?");
         System.out.println("0 - Выход");
         System.out.println("1 - Показать, кто живет в питомнике");
@@ -85,16 +147,12 @@ public class main {
             if (!(animalSpecies == 1 || animalSpecies == 2 || animalSpecies == 3))
                 System.out.println("Нужно ввести 1, 2 или 3.");
         }
-        String name = "";
-        while (name.equals("")) {
-            System.out.print("Введите имя питомца: ");
-            name = scanner.nextLine();
-        }
+        String name = inputName();
 
         Date birthDate;
         SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd");
         while (true) {
-            System.out.print("Введите дату рождения питомца питомца (yyyy-MM-dd): ");
+            System.out.print("Введите дату рождения питомца (yyyy-MM-dd): ");
             String input = scanner.nextLine();
             try {
                 birthDate = dateFormater.parse(input);
@@ -120,6 +178,7 @@ public class main {
                     throw new RuntimeException("Illegal animal species");
             }
             nursery.addAnimal(newAnimal);
+            System.out.println("Добро пожаловать, " + name);
             counter.add();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
