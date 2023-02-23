@@ -289,9 +289,7 @@ Processing triggers for hicolor-icon-theme (0.17-2) ...
 
 ```
 user@server1:~$ history 50
-  294  sudo -s
-  295  sudo -s
-  296  systemctl status mysql
+ 
   297  cat Pets
   298  cat > Pets
   299  cat > PackAnimals
@@ -304,39 +302,19 @@ user@server1:~$ history 50
   306  mkdir newdir
   307  mv HumansFriends newdir/
   308  ls newdir/
-  309  ls
-  310  ls H*
-  311  cat HumansFriends
   312  cat newdir/HumansFriends
-  313  sudo apt searshmysql
-  314  sudo apt searsh mysql
-  315  sudo apt search mysql
-  316  sudo apt search mysql-server
   317  sudo apt update
   318  wget https://repo.mysql.com//mysql-apt-config_0.8.24-1_all.deb
-  319  ls my*
   320  sudo dpkg -i mysql-apt-config_0.8.24-1_all.deb
   321  sudo apt update
   322  sudo apt install -y mysql-server
-  323  history
   324  wget https://go.skype.com/skypeforlinux-64.deb
-  325  sudo dpkg -i skypeforlinux-64.deb
   326  sudo apt update
-  327  df
-  328  sudo -s
-  329* sudo a
-  330  sudo apt update
-  331  sudo -s
   332  sudo dpkg -i skypeforlinux-64.deb
   333  sudo apt -f install
   334  apt list | grep skype
   335  sudo dpkg -r skypeforlinux
   336  apt list | grep skype
-  337  $> systemctl status mysql
   338  systemctl status mysql
-  339  df
-  340  sudo mysql
-  341  sudo mysql -p
-  342  history
-  343  history 50
+
   ```
