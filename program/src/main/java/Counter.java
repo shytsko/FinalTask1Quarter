@@ -1,22 +1,34 @@
-public class Counter implements AutoCloseable
-{
-    private int counter;
-    private boolean open;
+public class Counter implements AutoCloseable {
+    static private int counter = 0;
+    static private boolean openStatus = false;
 
-    public Counter() {
-        this.counter = 0;
-        this.open = false;
+    public Counter() throws Exception {
+        open();
     }
 
-    public void add() {
-        if(this.open)
+    public static int GetCount() {
+        return counter;
+    }
+
+    public void add() throws Exception {
+        if (openStatus)
             counter++;
         else
-            throw new RuntimeException("Counter not open");
+            throw new RuntimeException("Counter closed");
+    }
+
+    public void open() throws Exception {
+        if (openStatus)
+            throw new RuntimeException("Counter busy");
+        else
+            openStatus = true;
     }
 
     @Override
     public void close() throws Exception {
-        this.open = false;
+        if(openStatus)
+            openStatus = false;
+        else
+            throw new RuntimeException("Counter closed");
     }
 }
