@@ -355,3 +355,90 @@ mysql> SELECT * FROM young_animals;
 ```
 ### 12. Объединить все таблицы в одну, при этом сохраняя поля, указывающие на прошлую принадлежность к старым таблицам.
 <br>
+
+```
+mysql> CREATE VIEW all_tables AS
+    -> SELECT dogs.id AS dogs_id, dogs.id_spec AS dogs_id_spec, dogs.`name` AS dogs_name,
+    -> dogs.birthdate AS dogs_birthdate, dogs.skills AS dogs_skills,
+    -> cats.id AS cats_id, cats.id_spec AS cats_id_spec, cats.`name` AS cats_name,
+    -> cats.birthdate AS cats_birthdate, cats.skills AS cats_skills,
+    -> hamsters.id AS hamsters_id, hamsters.id_spec AS hamsters_id_spec, hamsters.`name` AS hamsters_name,
+    -> hamsters.birthdate AS hamsters_birthdate, hamsters.skills AS hamsters_skills,
+    -> horses.id AS horses_id, horses.id_spec AS horses_id_spec, horses.`name` AS horses_name,
+    -> horses.birthdate AS horses_birthdate, horses.skills AS horses_skills,
+    -> camels.id AS camels_id, camels.id_spec AS camels_id_spec, camels.`name` AS camels_name,
+    -> camels.birthdate AS camels_birthdate, camels.skills AS camels_skills,
+    -> donkeys.id AS donkeys_id, donkeys.id_spec AS donkeys_id_spec, donkeys.`name` AS donkeys_name,
+    -> donkeys.birthdate AS donkeys_birthdate, donkeys.skills AS donkeys_skills
+    -> FROM dogs
+    -> LEFT JOIN cats ON FALSE
+    -> LEFT JOIN hamsters ON FALSE
+    -> LEFT JOIN horses ON FALSE
+    -> LEFT JOIN camels ON FALSE
+    -> LEFT JOIN donkeys ON FALSE
+    -> UNION
+    -> SELECT *
+    -> FROM dogs
+    -> RIGHT JOIN cats ON FALSE
+    -> LEFT JOIN hamsters ON FALSE
+    -> LEFT JOIN horses ON FALSE
+    -> LEFT JOIN camels ON FALSE
+    -> LEFT JOIN donkeys ON FALSE
+    -> UNION
+    -> SELECT *
+    -> FROM dogs
+    -> RIGHT JOIN cats ON FALSE
+    -> RIGHT JOIN hamsters ON FALSE
+    -> LEFT JOIN horses ON FALSE
+    -> LEFT JOIN camels ON FALSE
+    -> LEFT JOIN donkeys ON FALSE
+    -> UNION
+    -> SELECT *
+    -> FROM dogs
+    -> RIGHT JOIN cats ON FALSE
+    -> RIGHT JOIN hamsters ON FALSE
+    -> RIGHT JOIN horses ON FALSE
+    -> LEFT JOIN camels ON FALSE
+    -> LEFT JOIN donkeys ON FALSE
+    -> UNION
+    -> SELECT *
+    -> FROM dogs
+    -> RIGHT JOIN cats ON FALSE
+    -> RIGHT JOIN hamsters ON FALSE
+    -> RIGHT JOIN horses ON FALSE
+    -> RIGHT JOIN camels ON FALSE
+    -> LEFT JOIN donkeys ON FALSE
+    -> UNION
+    -> SELECT *
+    -> FROM dogs
+    -> RIGHT JOIN cats ON FALSE
+    -> RIGHT JOIN hamsters ON FALSE
+    -> RIGHT JOIN horses ON FALSE
+    -> RIGHT JOIN camels ON FALSE
+    -> RIGHT JOIN donkeys ON FALSE;
+Query OK, 0 rows affected (0.00 sec)
+```
+
+```
+mysql> SELECT * FROM all_tables;
++---------+--------------+------------+----------------+---------------------------------+---------+--------------+------------+----------------+-------------------------------------+-------------+------------------+---------------+--------------------+-----------------+-----------+----------------+----------------+------------------+--------------------+-----------+----------------+-------------+------------------+---------------+------------+-----------------+------------------+-------------------+----------------+
+| dogs_id | dogs_id_spec | dogs_name  | dogs_birthdate | dogs_skills                     | cats_id | cats_id_spec | cats_name  | cats_birthdate | cats_skills                         | hamsters_id | hamsters_id_spec | hamsters_name | hamsters_birthdate | hamsters_skills | horses_id | horses_id_spec | horses_name    | horses_birthdate | horses_skills      | camels_id | camels_id_spec | camels_name | camels_birthdate | camels_skills | donkeys_id | donkeys_id_spec | donkeys_name     | donkeys_birthdate | donkeys_skills |
++---------+--------------+------------+----------------+---------------------------------+---------+--------------+------------+----------------+-------------------------------------+-------------+------------------+---------------+--------------------+-----------------+-----------+----------------+----------------+------------------+--------------------+-----------+----------------+-------------+------------------+---------------+------------+-----------------+------------------+-------------------+----------------+
+|    1000 |            1 | Бобик      | 2021-01-10     | ["лаять", "кусать"]             |    NULL |         NULL | NULL       | NULL           | NULL                                |        NULL |             NULL | NULL          | NULL               | NULL            |      NULL |           NULL | NULL           | NULL             | NULL               |      NULL |           NULL | NULL        | NULL             | NULL          |       NULL |            NULL | NULL             | NULL              | NULL           |
+|    1001 |            1 | Дейзи      | 2018-08-13     | ["играть"]                      |    NULL |         NULL | NULL       | NULL           | NULL                                |        NULL |             NULL | NULL          | NULL               | NULL            |      NULL |           NULL | NULL           | NULL             | NULL               |      NULL |           NULL | NULL        | NULL             | NULL          |       NULL |            NULL | NULL             | NULL              | NULL           |
+|    1002 |            1 | Пират      | 2022-12-15     | ["ловить тарелку"]              |    NULL |         NULL | NULL       | NULL           | NULL                                |        NULL |             NULL | NULL          | NULL               | NULL            |      NULL |           NULL | NULL           | NULL             | NULL               |      NULL |           NULL | NULL        | NULL             | NULL          |       NULL |            NULL | NULL             | NULL              | NULL           |
+|    NULL |         NULL | NULL       | NULL           | NULL                            |    2000 |            2 | Марта      | 2017-04-15     | ["ловить мышей"]                    |        NULL |             NULL | NULL          | NULL               | NULL            |      NULL |           NULL | NULL           | NULL             | NULL               |      NULL |           NULL | NULL        | NULL             | NULL          |       NULL |            NULL | NULL             | NULL              | NULL           |
+|    NULL |         NULL | NULL       | NULL           | NULL                            |    2001 |            2 | Кузя       | 2016-11-13     | ["показывать зайца"]                |        NULL |             NULL | NULL          | NULL               | NULL            |      NULL |           NULL | NULL           | NULL             | NULL               |      NULL |           NULL | NULL        | NULL             | NULL          |       NULL |            NULL | NULL             | NULL              | NULL           |
+|    NULL |         NULL | NULL       | NULL           | NULL                            |    2002 |            2 | Яшка       | 2021-12-01     | ["играть"]                          |        NULL |             NULL | NULL          | NULL               | NULL            |      NULL |           NULL | NULL           | NULL             | NULL               |      NULL |           NULL | NULL        | NULL             | NULL          |       NULL |            NULL | NULL             | NULL              | NULL           |
+|    NULL |         NULL | NULL       | NULL           | NULL                            |    NULL |         NULL | NULL       | NULL           | NULL                                |        3000 |                3 | Чаки          | 2021-12-31         | ["спать"]       |      NULL |           NULL | NULL           | NULL             | NULL               |      NULL |           NULL | NULL        | NULL             | NULL          |       NULL |            NULL | NULL             | NULL              | NULL           |
+|    NULL |         NULL | NULL       | NULL           | NULL                            |    NULL |         NULL | NULL       | NULL           | NULL                                |        3001 |                3 | Пух           | 2022-10-01         | []              |      NULL |           NULL | NULL           | NULL             | NULL               |      NULL |           NULL | NULL        | NULL             | NULL          |       NULL |            NULL | NULL             | NULL              | NULL           |
+|    NULL |         NULL | NULL       | NULL           | NULL                            |    NULL |         NULL | NULL       | NULL           | NULL                                |        3002 |                3 | Рокки         | 2022-01-14         | []              |      NULL |           NULL | NULL           | NULL             | NULL               |      NULL |           NULL | NULL        | NULL             | NULL          |       NULL |            NULL | NULL             | NULL              | NULL           |
+|    NULL |         NULL | NULL       | NULL           | NULL                            |    NULL |         NULL | NULL       | NULL           | NULL                                |        NULL |             NULL | NULL          | NULL               | NULL            |      4000 |              4 | Пегас          | 2015-09-18       | ["скакать"]        |      NULL |           NULL | NULL        | NULL             | NULL          |       NULL |            NULL | NULL             | NULL              | NULL           |
+|    NULL |         NULL | NULL       | NULL           | NULL                            |    NULL |         NULL | NULL       | NULL           | NULL                                |        NULL |             NULL | NULL          | NULL               | NULL            |      4001 |              4 | Джули          | 2022-07-07       | ["тянуть"]         |      NULL |           NULL | NULL        | NULL             | NULL          |       NULL |            NULL | NULL             | NULL              | NULL           |
+|    NULL |         NULL | NULL       | NULL           | NULL                            |    NULL |         NULL | NULL       | NULL           | NULL                                |        NULL |             NULL | NULL          | NULL               | NULL            |      4002 |              4 | Шумахер        | 2018-05-06       | ["толкать"]        |      NULL |           NULL | NULL        | NULL             | NULL          |       NULL |            NULL | NULL             | NULL              | NULL           |
+|    NULL |         NULL | NULL       | NULL           | NULL                            |    NULL |         NULL | NULL       | NULL           | NULL                                |        NULL |             NULL | NULL          | NULL               | NULL            |      NULL |           NULL | NULL           | NULL             | NULL               |      NULL |           NULL | NULL        | NULL             | NULL          |       6000 |               6 | Карвалол         | 2020-11-22        | []             |
+|    NULL |         NULL | NULL       | NULL           | NULL                            |    NULL |         NULL | NULL       | NULL           | NULL                                |        NULL |             NULL | NULL          | NULL               | NULL            |      NULL |           NULL | NULL           | NULL             | NULL               |      NULL |           NULL | NULL        | NULL             | NULL          |       6001 |               6 | Валидол          | 2017-10-14        | []             |
+|    NULL |         NULL | NULL       | NULL           | NULL                            |    NULL |         NULL | NULL       | NULL           | NULL                                |        NULL |             NULL | NULL          | NULL               | NULL            |      NULL |           NULL | NULL           | NULL             | NULL               |      NULL |           NULL | NULL        | NULL             | NULL          |       6002 |               6 | Аспирин          | 2022-05-22        | []             |
++---------+--------------+------------+----------------+---------------------------------+---------+--------------+------------+----------------+-------------------------------------+-------------+------------------+---------------+--------------------+-----------------+-----------+----------------+----------------+------------------+--------------------+-----------+----------------+-------------+------------------+---------------+------------+-----------------+------------------+-------------------+----------------+
+15 rows in set (0.00 sec)
+```
