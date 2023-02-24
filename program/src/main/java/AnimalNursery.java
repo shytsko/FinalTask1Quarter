@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class AnimalNursery implements Iterable {
-    Map<String, Animal> animals;
+    private Map<String, Animal> animals;
 
     public AnimalNursery() {
         this.animals = new HashMap<>();
